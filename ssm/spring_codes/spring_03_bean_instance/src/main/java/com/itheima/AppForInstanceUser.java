@@ -16,13 +16,12 @@ public class AppForInstanceUser {
 //        userDao.save();
 
 
+        //拿到IOC容器
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        UserDao userDao1 = (UserDao) ctx.getBean("userDao");
-        UserDao userDao2 = (UserDao) ctx.getBean("userDao");
+        UserDao userDao1 = (UserDao)ctx.getBean("userDao");
+        UserDao userDao2 = (UserDao)ctx.getBean("userDao");
         System.out.println(userDao1);
         System.out.println(userDao2);
-//        userDao.save();
 
     }
 }

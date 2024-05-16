@@ -951,6 +951,10 @@ Exception in thread "main" org.springframework.beans.factory.BeanCreationExcepti
 
 至此，关于Spring的构造方法实例化就已经学习完了，因为每一个类默认都会提供一个无参构造函数，所以其实真正在使用这种方式的时候，我们什么也不需要做。这也是我们以后比较常用的一种方式。
 
+
+
+
+
 #### 4.2.4 静态工厂实例化
 
 接下来研究Spring中的第二种bean的创建方式`静态工厂实例化`:
@@ -1270,6 +1274,61 @@ public class UserDaoFactoryBean implements FactoryBean<UserDao> {
 这些方式中，重点掌握`构造方法`和`FactoryBean`即可。
 
 需要注意的一点是，构造方法在类中默认会提供，但是如果重写了构造方法，默认的就会消失，在使用的过程中需要注意，如果需要重写构造方法，最好把默认的构造方法也重写下。
+
+---
+
+
+
+```
+bean是如何创建的？
+	- 通过调用类中的构造方法来创建的
+bean实例化的三种方法：
+	- 通过构造器进行实例化 -主要
+	- 通过静态工厂进行实例化
+	- 实例工厂进行实例化
+		- factorybean进行实例化。 -主要
+```
+
+```java
+//factorybean实例化
+public class UserDaoFactoryBean implements FactoryBean<UserDao> {
+    //得到Bean是否是单例的
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+    //生产对象的接口
+    @Override
+    public UserDao getObject() throws Exception {
+        return new UserDaoImpl();
+    }
+    //生产的对象的类型
+    @Override
+    public Class<?> getObjectType() {
+        return UserDao.class;
+    }
+}
+```
+
+```xml
+<!--方式四：使用【FactoryBean】实例化bean-->
+<bean id="userDao" class="com.itheima.factory.UserDaoFactoryBean"/>
+```
+
+```java
+	public static void main(String[] args) {
+        //拿到IOC容器
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //直接向外拿生产出来的对象就行
+        UserDao userDao1 = (UserDao)ctx.getBean("userDao");
+        UserDao userDao2 = (UserDao)ctx.getBean("userDao");
+        System.out.println(userDao1);
+        System.out.println(userDao2);
+
+    }
+```
+
+
 
 ### 4.3 bean的生命周期
 
