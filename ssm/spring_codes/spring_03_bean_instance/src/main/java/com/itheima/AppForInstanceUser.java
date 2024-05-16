@@ -22,6 +22,5 @@ public class AppForInstanceUser {
         UserDao userDao2 = (UserDao)ctx.getBean("userDao");
         System.out.println(userDao1);
         System.out.println(userDao2);
-
     }
 }
